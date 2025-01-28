@@ -14,6 +14,40 @@ const player2 = {
   PONTOS: 0,
 };
 
+const player3 = {
+  NOME: "Peach",
+  VELOCIDADE: 3,
+  MANOBRABILIDADE: 4,
+  PODER: 2,
+  PONTOS: 0,
+};
+
+const player4 = {
+  NOME: "Yoshi",
+  VELOCIDADE: 2,
+  MANOBRABILIDADE: 4,
+  PODER: 3,
+  PONTOS: 0,
+};
+
+const player5 = {
+  NOME: "Bowser",
+  VELOCIDADE: 5,
+  MANOBRABILIDADE: 2,
+  PODER: 5,
+  PONTOS: 0,
+};
+
+const player6 = {
+  NOME: "Donkey Kong",
+  VELOCIDADE: 2,
+  MANOBRABILIDADE: 2,
+  PODER: 5,
+  PONTOS: 0,
+};
+
+const characters = [player1, player2, player3, player4, player5, player6];
+
 async function rollDice() {
   return Math.floor(Math.random() * 6) + 1;
 }
@@ -197,7 +231,16 @@ async function declareWinner(character1, character2) {
   else console.log("A corrida terminou em empate");
 }
 
+async function getCharacters() {
+  let p1 = Math.floor(Math.random() * characters.length);
+  while (true) {
+    let p2 = Math.floor(Math.random() * characters.length);
+    if (p1 !== p2) return [characters[p1], characters[p2]];
+  }
+}
+
 (async function main() {
+  let [player1, player2] = await getCharacters();
   console.log(
     `🏁🚨 Corrida entre ${player1.NOME} e ${player2.NOME} começando...\n`
   );
