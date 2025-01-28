@@ -44,6 +44,10 @@ async function logRollResult(characterName, block, diceResult, attribute) {
   );
 }
 
+async function receiveTurboBoost() {
+  return Math.random() < 0.5;
+}
+
 async function playRaceEngine(character1, character2) {
   for (let round = 1; round <= 5; round++) {
     console.log(`🏁 Rodada ${round}`);
@@ -122,6 +126,12 @@ async function playRaceEngine(character1, character2) {
         console.log(
           `${character1.NOME} venceu o confronto! ${character2.NOME} perdeu 1 ponto 🐢`
         );
+        if (await receiveTurboBoost()) {
+          console.log(
+            `Que sorte! ${character1.NOME} recebeu um turbo! 🚀 +1 ponto`
+          );
+          character1.PONTOS++;
+        }
         character2.PONTOS--;
       }
 
@@ -129,6 +139,12 @@ async function playRaceEngine(character1, character2) {
         console.log(
           `${character2.NOME} venceu o confronto! ${character1.NOME} perdeu 1 ponto 🐢`
         );
+        if (await receiveTurboBoost()) {
+          console.log(
+            `Que sorte! ${character2.NOME} recebeu um turbo! 🚀 +1 ponto`
+          );
+          character2.PONTOS++;
+        }
         character1.PONTOS--;
       }
 
