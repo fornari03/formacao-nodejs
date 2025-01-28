@@ -48,6 +48,17 @@ async function receiveTurboBoost() {
   return Math.random() < 0.5;
 }
 
+async function itemConfrontation() {
+  let result = Math.random();
+  if (result < 0.67)
+    return "CASCO";
+  return "BOMBA";
+}
+
+async function getItemDamage(item) {
+  return item === "CASCO" ? 1 : 2;
+}
+
 async function playRaceEngine(character1, character2) {
   for (let round = 1; round <= 5; round++) {
     console.log(`🏁 Rodada ${round}`);
@@ -123,8 +134,11 @@ async function playRaceEngine(character1, character2) {
       );
 
       if (powerResult1 > powerResult2 && character2.PONTOS > 0) {
+        let item = await itemConfrontation();
+        let itemDamage = await getItemDamage(item);
+
         console.log(
-          `${character1.NOME} venceu o confronto! ${character2.NOME} perdeu 1 ponto 🐢`
+          `${character1.NOME} venceu o confronto usando um(a) ${item}! ${character2.NOME} perdeu ${itemDamage} ponto(s) 🐢`
         );
         if (await receiveTurboBoost()) {
           console.log(
@@ -132,12 +146,15 @@ async function playRaceEngine(character1, character2) {
           );
           character1.PONTOS++;
         }
-        character2.PONTOS--;
+        character2.PONTOS -= itemDamage;
       }
 
       if (powerResult2 > powerResult1 && character1.PONTOS > 0) {
+        let item = await itemConfrontation();
+        let itemDamage = await getItemDamage(item);
+
         console.log(
-          `${character2.NOME} venceu o confronto! ${character1.NOME} perdeu 1 ponto 🐢`
+          `${character2.NOME} venceu o confronto usando um(a) ${item}! ${character1.NOME} perdeu ${itemDamage} ponto(s) 🐢`
         );
         if (await receiveTurboBoost()) {
           console.log(
@@ -145,7 +162,7 @@ async function playRaceEngine(character1, character2) {
           );
           character2.PONTOS++;
         }
-        character1.PONTOS--;
+        character1.PONTOS -= itemDamage;
       }
 
       console.log(
