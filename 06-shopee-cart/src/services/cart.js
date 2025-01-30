@@ -11,7 +11,7 @@ async function calculateTotal(userCart) {
   console.log("\nShopee Cart TOTAL IS:");
 
   const result = userCart.reduce((total, item) => total + item.subtotal(), 0);
-  console.log(`🎁Total: ${result}`);
+  console.log(`🎁Total: ${result.toFixed(2)}`);
 }
 
 // -> deletar item do carrinho
@@ -55,7 +55,7 @@ async function displaycart(userCart) {
     console.log(
       `${index + 1}. ${item.name} - R$ ${item.price} | ${
         item.quantity
-      }x | Subtotal = ${item.subtotal()}`
+      }x | Subtotal = ${item.subtotal().toFixed(2)}`
     );
   });
 }
