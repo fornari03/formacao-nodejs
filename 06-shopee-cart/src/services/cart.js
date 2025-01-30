@@ -49,8 +49,9 @@ async function removeItem(userCart, item) {
 
 // ✅ mostra todos os items do carrinho
 async function displaycart(userCart) {
-  console.log("\nShopee cart list:");
-  userCart.forEach((item, index) => {
+  console.log("\nShopee sorted cart list:");
+  let sortedUserCart = [...userCart].sort((a, b) => b.subtotal() - a.subtotal());
+  sortedUserCart.forEach((item, index) => {
     console.log(
       `${index + 1}. ${item.name} - R$ ${item.price} | ${
         item.quantity
