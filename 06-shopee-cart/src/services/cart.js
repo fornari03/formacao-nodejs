@@ -9,7 +9,16 @@ async function addItem(userCart, item) {
 // ✅ -> calcular o total do carrinho
 async function calculateTotal(userCart) {
   console.log("\nShopee Cart TOTAL IS:");
-
+  const couponIdx = userCart.findIndex((item) => item.type === "Coupon");
+  if (couponIdx) {
+    const coupon = userCart.splice(couponIdx, 1)[0];
+    const total = userCart.reduce((total, item) => total + item.subtotal(), 0);
+    const couponDiscountApplied = userCart.filter((a) => a.type === coupon.type).reduce((total, item) => total + item.subtotal(), 0)*coupon.discount;
+    console.log(`🎁Total: ${total.toFixed(2)}`);
+    console.log(`🎁Coupon discount applied in ${coupon.type}: ${couponDiscountApplied.toFixed(2)}`);
+    console.log(`🎁Total with discount: ${(total - couponDiscountApplied).toFixed(2)}`);
+    return;
+  }
   const result = userCart.reduce((total, item) => total + item.subtotal(), 0);
   console.log(`🎁Total: ${result.toFixed(2)}`);
 }
@@ -50,7 +59,7 @@ async function removeItem(userCart, item) {
 // ✅ mostra todos os items do carrinho
 async function displaycart(userCart) {
   console.log("\nShopee sorted cart list:");
-  let sortedUserCart = [...userCart].sort((a, b) => b.subtotal() - a.subtotal());
+  let sortedUserCart = [...userCart].filter((a) => !(a.coupon)).sort((a, b) => b.subtotal() - a.subtotal());
   sortedUserCart.forEach((item, index) => {
     console.log(
       `${index + 1}. ${item.name} - R$ ${item.price} | ${
@@ -62,7 +71,7 @@ async function displaycart(userCart) {
 
 async function displaycartByType(userCart, type) {
   console.log(`\nShopee sorted cart list by ${type}:`);
-  let sortedUserCart = [...userCart].filter((a) => a.type === type).sort((a, b) => b.subtotal() - a.subtotal());
+  let sortedUserCart = [...userCart].filter((a) => a.type === type && !(a.coupon)).sort((a, b) => b.subtotal() - a.subtotal());
   sortedUserCart.forEach((item, index) => {
     if (item.type === type) {
       console.log(

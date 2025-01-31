@@ -7,8 +7,18 @@ async function createItem(name, type, price, quantity) {
     type,
     price,
     quantity,
+    coupon: false,
     subtotal: () => price * quantity,
   };
 }
 
-export default createItem;
+async function createCoupon(name, type, discount) {
+  return {
+    name,
+    type,
+    discount,
+    coupon: true,
+  };
+}
+
+export { createItem, createCoupon };
