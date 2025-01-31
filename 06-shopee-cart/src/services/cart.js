@@ -60,4 +60,18 @@ async function displaycart(userCart) {
   });
 }
 
-export { addItem, calculateTotal, deleteItem, removeItem, displaycart };
+async function displaycartByType(userCart, type) {
+  console.log(`\nShopee sorted cart list by ${type}:`);
+  let sortedUserCart = [...userCart].filter((a) => a.type === type).sort((a, b) => b.subtotal() - a.subtotal());
+  sortedUserCart.forEach((item, index) => {
+    if (item.type === type) {
+      console.log(
+        `${index + 1}. ${item.name} - R$ ${item.price} | ${
+          item.quantity
+        }x | Subtotal = ${item.subtotal().toFixed(2)}`
+      );
+    }
+  });
+}
+
+export { addItem, calculateTotal, deleteItem, removeItem, displaycart, displaycartByType };
